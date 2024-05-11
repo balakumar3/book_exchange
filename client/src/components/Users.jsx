@@ -100,7 +100,7 @@ const Users = () => {
 
     return (
         <div className="container mx-auto mt-8">
-            <h1 className="text-2xl font-semibold mb-4">User Data</h1>
+            <h1 className="text-2xl font-semibold mb-4">User Profiles</h1>
             <ListProfiles data={currentUsers} />
 
             <nav className="mt-4">

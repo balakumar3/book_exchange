@@ -67,13 +67,16 @@ const ExchangeRequests = () => {
                                 </td>
                                 <td className="border px-4 py-2">{data.DURATION} days</td>
                                 <td className="border px-4 py-2">
-                                    <button className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-2 rounded mr-2">
-                                        Edit
-                                    </button>
-                                    <button className="bg-red-500 hover:bg-red-400 text-white font-bold py-1 px-2 rounded">
-                                        Delete
-                                    </button>
+                                    <div className="flex">
+                                        <button className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-2 rounded mr-2">
+                                            Edit
+                                        </button>
+                                        <button className="bg-red-500 hover:bg-red-400 text-white font-bold py-1 px-2 rounded">
+                                            Delete
+                                        </button>
+                                    </div>
                                 </td>
+
                             </tr>
                         ))}
                     </tbody>

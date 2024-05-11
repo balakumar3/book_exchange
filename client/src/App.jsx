@@ -6,6 +6,7 @@ import ForgotPassword from './components/ForgotPassword';
 import Home from './components/Home';
 import ExchangeRequests from './components/ExchangeRequests';
 import CreateExchangeRequests from './components/CreateExchangeRequests';
+import Users from './components/Users';
 import BookListingAndSearch from './components/BookListingAndSearch';
 
 export default function App() {
@@ -19,6 +20,7 @@ export default function App() {
         <Route path='/forgotPassword' element={<ForgotPassword></ForgotPassword>}></Route>
         <Route path='/exchangeRequests' element={<ExchangeRequests></ExchangeRequests>}></Route>
         <Route path='/createExchange' element={<CreateExchangeRequests></CreateExchangeRequests>}></Route>
+        <Route path='/users' element={<Users></Users>}></Route>
         <Route path='/booklist' element={<BookListingAndSearch></BookListingAndSearch>}></Route>
       </Routes>
     </BrowserRouter>

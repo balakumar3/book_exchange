@@ -11,7 +11,7 @@ const Home = () => {
             <ul className="absolute top-1/3 left-0 transform -translate-y-1/2 text-center">
                 <li className="mb-2"><Link to="/booklist" className="block px-4 py-2 bg-black text-white rounded">Book Listing & Searching</Link></li>
                 <li className="mb-2"><Link to="/exchangeRequests" className="block px-4 py-2 bg-black text-white rounded">Exchange Requests</Link></li>
-                <li className="mb-2"><Link to="/user-profiles" className="block px-4 py-2 bg-black text-white rounded">User Profiles</Link></li>
+                <li className="mb-2"><Link to="/users" className="block px-4 py-2 bg-black text-white rounded">User Profiles</Link></li>
             </ul>
             <footer className="absolute bottom-0 w-full text-center py-4 bg-gray-200">
                 &copy; 2024 Book Exchange Platform. All rights reserved.

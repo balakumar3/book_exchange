@@ -23,17 +23,17 @@ const ListProfiles = ({ data }) => {
                         <th className="px-4 py-2">Favorite Genres</th>
                         <th className="px-4 py-2">Owned Books</th>
                         <th className="px-4 py-2">Wishlist</th>
-                        <th className="px-4 py-2">Actions</th> {/* Added Actions column */}
+                        <th className="px-4 py-2">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {data.map((user, index) => (
                         <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
-                            <td className="border px-4 py-2">{user.FIRST_NAME}</td>
-                            <td className="border px-4 py-2">{user.LAST_NAME}</td>
-                            <td className="border px-4 py-2">{user.EMAIL}</td>
-                            <td className="border px-4 py-2">{user.USER_LOCATION}</td>
-                            <td className="border px-4 py-2">{user.SIGNUP_DATE}</td>
+                            <td className="border px-4 py-2">{user.firstName}</td>
+                            <td className="border px-4 py-2">{user.lastName}</td>
+                            <td className="border px-4 py-2">{user.email}</td>
+                            <td className="border px-4 py-2">{user.userLocation}</td>
+                            <td className="border px-4 py-2">{user.signupDate}</td>
                             <td className="border px-4 py-2">{user.reading_preferences}</td>
                             <td className="border px-4 py-2">{user.favorite_genres}</td>
                             <td className="border px-4 py-2">{user.owned_books}</td>

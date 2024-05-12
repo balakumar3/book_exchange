@@ -1,8 +1,19 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import dummy from './DummyData';
+import axios from 'axios';
 
 const ExchangeRequests = () => {
+    const navigate = useNavigate();
+    axios.defaults.withCredentials = true;
+    useEffect(() => {
+        axios.get('http://localhost:3000/auth/verify')
+            .then(res => {
+                if (res.data.message === 'no token') {
+                    navigate('/login')
+                }
+            })
+    }, [])
     const [dummyData, setDummyData] = useState(dummy);
 
 

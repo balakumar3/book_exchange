@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ListProfiles from './ListProfiles';
+import axios from 'axios';
 
 const Users = () => {
 
@@ -84,6 +85,15 @@ const Users = () => {
 
 
     ]);
+
+    useEffect(() => {
+        axios.get('http://localhost:3000/auth/getUsers')
+            .then(res => {
+                setUserData(res.data)
+                console.log("print data ", res.data)
+            })
+    }, [])
+
 
 
     const usersPerPage = 5;

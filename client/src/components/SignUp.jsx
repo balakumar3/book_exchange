@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import Axios from 'axios'
-import { Link } from 'react-router-dom';
+import axios from 'axios'
+import { Link, useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
     const [firstName, setFirstName] = useState('');
@@ -8,12 +8,13 @@ const SignUp = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [userLocation, setUserLocation] = useState('');
+    const navigate = useNavigate();
     const handleSubmit = (e) => {
         e.preventDefault();
-        Axios.post("signup api", { firstName, lastName, email, password, userLocation })
+        axios.post("http://localhost:3000/auth/user-signup", { firstName, lastName, email, password, userLocation })
             .then(response => {
                 if (response.data.status) {
-
+                    navigate('/login')
                 }
             })
             .catch(err => {

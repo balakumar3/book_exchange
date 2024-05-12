@@ -8,6 +8,7 @@ import ExchangeRequests from './components/ExchangeRequests';
 import CreateExchangeRequests from './components/CreateExchangeRequests';
 import Users from './components/Users';
 import BookListingAndSearch from './components/BookListingAndSearch';
+import ResetPassword from './components/ResetPassword';
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
         <Route path='/createExchange' element={<CreateExchangeRequests></CreateExchangeRequests>}></Route>
         <Route path='/users' element={<Users></Users>}></Route>
         <Route path='/booklist' element={<BookListingAndSearch></BookListingAndSearch>}></Route>
+        <Route path='/resetPassword/:token' element={<ResetPassword></ResetPassword>}></Route>
       </Routes>
     </BrowserRouter>
   )

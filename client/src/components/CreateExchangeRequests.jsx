@@ -1,36 +1,42 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function CreateExchangeRequests() {
+    const navigate = useNavigate();
     const [senderEmail, setSenderEmail] = useState('');
     const [receiverEmail, setReceiverEmail] = useState('');
     const [bookTitle, setBookTitle] = useState('');
-    const [requestStatus, setRequestStatus] = useState('');
+    const [requestStatus] = useState('pending');
     const [deliveryMethod, setDeliveryMethod] = useState('bypost'); // Default to physical delivery
     const [duration, setDuration] = useState('');
     const [address, setAddress] = useState(''); // Add state for address
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Your form submission logic goes here
+
         console.log('Form submitted!');
         console.log('Sender Email:', senderEmail);
         console.log('Receiver Email:', receiverEmail);
         console.log('Book Title:', bookTitle);
         console.log('Request Status:', requestStatus);
-        console.log('Delivery Method:', deliveryMethod);
+        console.log('Delivery Method:', deliveryMethod, typeof (deliveryMethod));
         console.log('Duration:', duration);
-        console.log('Address:', address); // Log address
-        // Reset form fields if needed
-        setSenderEmail('');
-        setReceiverEmail('');
-        setBookTitle('');
-        setRequestStatus('');
-        setDuration('');
-        setAddress(''); // Reset address field
+        console.log('Address:', address);
+
+        axios.post("http://localhost:3000/exchange/exchange-requests", { senderEmail, receiverEmail, bookTitle, requestStatus, duration, address, deliveryMethod })
+            .then(response => {
+                console.log("print response.data ", response?.data);
+                if (response.data.message) {
+                    navigate('/exchangeRequests')
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
     };
 
-    // Function to render address input field based on delivery method
+
     const renderAddressField = () => {
         if (deliveryMethod === 'bypost' || deliveryMethod === 'byexternaldeliverypartner') {
             return (
@@ -65,15 +71,12 @@ function CreateExchangeRequests() {
                         <option value="byself">By Self</option>
                     </select>
 
-                    {renderAddressField()} {/* Render address input field */}
+                    {renderAddressField()}
 
                     <label htmlFor="duration" className="block mb-2">Duration:</label>
                     <input type="text" id="duration" placeholder="Duration" className="w-full p-2 border border-gray-300 rounded mb-4" value={duration} onChange={(e) => setDuration(e.target.value)} />
 
                     <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">Submit Request</button>
-                    {/* <p className="text-center mt-4">
-                        Need to <span className="text-blue-500 hover:underline">Cancel?</span>
-                    </p> */}
                 </form>
             </div>
         </div>

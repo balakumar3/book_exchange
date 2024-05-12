@@ -4,6 +4,7 @@ import dummy from './DummyData';
 import axios from 'axios';
 
 const ExchangeRequests = () => {
+    const [dummyData, setDummyData] = useState(dummy);
     const navigate = useNavigate();
     axios.defaults.withCredentials = true;
     useEffect(() => {
@@ -14,7 +15,27 @@ const ExchangeRequests = () => {
                 }
             })
     }, [])
-    const [dummyData, setDummyData] = useState(dummy);
+    const fetchExchange = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/exchange/getExchangerequests');
+            setDummyData(response.data);
+        } catch (error) {
+            console.error('Error fetching users:', error);
+        }
+    };
+    useEffect(() => {
+        fetchExchange();
+    }, [])
+
+    useEffect(() => {
+        axios.get('http://localhost:3000/exchange/getExchangerequests')
+            .then(res => {
+                if (res.data.message === 'no token') {
+                    navigate('/login')
+                }
+            })
+    }, [])
+
 
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -54,8 +75,8 @@ const ExchangeRequests = () => {
                 <table className="table-auto w-full">
                     <thead>
                         <tr>
-                            <th className="px-4 py-2">SENDER_ID</th>
-                            <th className="px-4 py-2">RECEIVER_ID</th>
+                            <th className="px-4 py-2">REQUESTER_ID</th>
+                            <th className="px-4 py-2">OWNER_ID</th>
                             <th className="px-4 py-2">BOOK_ID</th>
                             <th className="px-4 py-2">REQUEST_STATUS</th>
                             <th className="px-4 py-2">DELIVERY_METHOD</th>
@@ -66,27 +87,17 @@ const ExchangeRequests = () => {
                     <tbody>
                         {currentItems.map((data, index) => (
                             <tr key={index} className={index % 2 === 0 ? 'bg-gray-100' : ''}>
-                                <td className="border px-4 py-2">{data.SENDER_ID}</td>
-                                <td className="border px-4 py-2">{data.RECEIVER_ID}</td>
-                                <td className="border px-4 py-2">{data.BOOK_ID}</td>
-                                <td className="border px-4 py-2">{data.REQUEST_STATUS}</td>
-                                <td className="border px-4 py-2">{data.DELIVERY_METHOD}</td>
+                                <td className="border px-4 py-2">{data.senderEmail}</td>
+                                <td className="border px-4 py-2">{data.receiverEmail}</td>
+                                <td className="border px-4 py-2">{data.bookTitle}</td>
+                                <td className="border px-4 py-2">{data.requestStatus}</td>
+                                <td className="border px-4 py-2">{data.deliveryMethod}</td>
                                 <td className="border px-4 py-2">
                                     {data.DELIVERY_METHOD === 'bypost' || data.DELIVERY_METHOD === 'byexternaldeliverypartner'
-                                        ? data.ADDRESS
+                                        ? data.address
                                         : 'N/A'}
                                 </td>
-                                <td className="border px-4 py-2">{data.DURATION} days</td>
-                                <td className="border px-4 py-2">
-                                    <div className="flex">
-                                        <button className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-2 rounded mr-2">
-                                            Edit
-                                        </button>
-                                        <button className="bg-red-500 hover:bg-red-400 text-white font-bold py-1 px-2 rounded">
-                                            Delete
-                                        </button>
-                                    </div>
-                                </td>
+                                <td className="border px-4 py-2">{data.duration} days</td>
 
                             </tr>
                         ))}

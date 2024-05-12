@@ -3,7 +3,6 @@ import ListProfiles from './ListProfiles';
 import axios from 'axios';
 
 const Users = () => {
-
     const [userData, setUserData] = useState([
         {
             FIRST_NAME: 'John',
@@ -85,13 +84,17 @@ const Users = () => {
 
 
     ]);
+    const fetchUsers = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/auth/getUsers');
+            setUserData(response.data);
+        } catch (error) {
+            console.error('Error fetching users:', error);
+        }
+    };
 
     useEffect(() => {
-        axios.get('http://localhost:3000/auth/getUsers')
-            .then(res => {
-                setUserData(res.data)
-                console.log("print data ", res.data)
-            })
+        fetchUsers();
     }, [])
 
 
@@ -111,8 +114,7 @@ const Users = () => {
     return (
         <div className="container mx-auto mt-8">
             <h1 className="text-2xl font-semibold mb-4">User Profiles</h1>
-            <ListProfiles data={currentUsers} />
-
+            <ListProfiles data={currentUsers} fetchUsers={fetchUsers} />
             <nav className="mt-4">
                 <ul className="flex justify-center">
                     {Array.from({ length: totalPages }, (_, index) => (

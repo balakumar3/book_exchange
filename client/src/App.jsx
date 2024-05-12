@@ -9,6 +9,7 @@ import CreateExchangeRequests from './components/CreateExchangeRequests';
 import Users from './components/Users';
 import BookListingAndSearch from './components/BookListingAndSearch';
 import ResetPassword from './components/ResetPassword';
+import EditUserProfiles from './components/EditUserProfiles';
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
         <Route path='/users' element={<Users></Users>}></Route>
         <Route path='/booklist' element={<BookListingAndSearch></BookListingAndSearch>}></Route>
         <Route path='/resetPassword/:token' element={<ResetPassword></ResetPassword>}></Route>
+        <Route path='/editUserProfiles' element={<EditUserProfiles></EditUserProfiles>}></Route>
       </Routes>
     </BrowserRouter>
   )

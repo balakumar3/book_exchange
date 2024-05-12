@@ -53,13 +53,13 @@ router.post('/forgot-user-password', async (req, res) => {
         var transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: '',
-                pass: ''
+                user: process.env.EMAIL,
+                pass: process.env.SECRET,
             }
         });
 
         var mailOptions = {
-            from: '',
+            from: process.env.EMAIL,
             to: email,
             subject: 'Reset Password',
             text: `http://localhost:5173/resetPassword/${token}`
@@ -142,5 +142,50 @@ router.delete('/deleteUser/:userEmail', async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
+
+router.get('/getUsers/:userEmail', async (req, res) => {
+    try {
+        const userEmail = req.params.userEmail;
+        console.log("user email is ", userEmail);
+        const user = await User.findOne({ email: userEmail });
+        res.json(user);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+router.put('/users/:emailId', async (req, res) => {
+    const email = req.params.emailId;
+    console.log("email is ", email)
+    const {
+        readingPreferences,
+        favoriteGenres,
+        ownedBooks,
+        wishList,
+    } = req.body;
+    console.log("user location ")
+
+    try {
+
+        let user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        user.readingPreferences = readingPreferences;
+        user.favoriteGenres = favoriteGenres;
+        user.ownedBooks = ownedBooks;
+        user.wishList = wishList;
+
+        await user.save();
+
+        return res.status(200).json({ message: 'User information updated successfully', user });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
 
 export { router as UserRouter }

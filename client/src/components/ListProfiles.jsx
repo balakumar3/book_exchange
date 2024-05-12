@@ -1,13 +1,25 @@
 import React from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-const ListProfiles = ({ data }) => {
-    const handleEdit = (userId) => {
-        console.log(`Editing user with ID: ${userId}`);
+const ListProfiles = ({ data, fetchUsers }) => {
+    const navigate = useNavigate();
+    const handleEdit = async (email) => {
+        const user = await axios.get(`http://localhost:3000/auth/getUsers/${email}`);
+        console.log("print user ", user?.data);
+        const emailId = user?.data?.email;
+        navigate('/EditUserProfiles', { state: { emailId } });
     };
 
-    const handleDelete = (userId) => {
-        console.log(`Deleting user with ID: ${userId}`);
-    };
+
+    const handleDelete = async (email) => {
+        try {
+            const response = await axios.delete(`http://localhost:3000/auth/deleteUser/${email}`);
+            fetchUsers();
+        } catch (error) {
+            console.error('Error fetching users:', error);
+        }
+    }
 
     return (
         <div className="overflow-x-auto">
@@ -34,16 +46,16 @@ const ListProfiles = ({ data }) => {
                             <td className="border px-4 py-2">{user.email}</td>
                             <td className="border px-4 py-2">{user.userLocation}</td>
                             <td className="border px-4 py-2">{user.signupDate}</td>
-                            <td className="border px-4 py-2">{user.reading_preferences}</td>
-                            <td className="border px-4 py-2">{user.favorite_genres}</td>
-                            <td className="border px-4 py-2">{user.owned_books}</td>
-                            <td className="border px-4 py-2">{user.wishlist}</td>
+                            <td className="border px-4 py-2">{user.readingPreferences}</td>
+                            <td className="border px-4 py-2">{user.favoriteGenres}</td>
+                            <td className="border px-4 py-2">{user.ownedBooks}</td>
+                            <td className="border px-4 py-2">{user.wishList}</td>
                             <td className="border px-4 py-2">
                                 <div className="flex">
                                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                                        onClick={() => handleEdit(user.id)}>Edit</button>
+                                        onClick={() => handleEdit(user.email)}>Edit</button>
                                     <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2"
-                                        onClick={() => handleDelete(user.id)}>Delete</button>
+                                        onClick={() => handleDelete(user.email)}>Delete</button>
                                 </div>
                             </td>
                         </tr>

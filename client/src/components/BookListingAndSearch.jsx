@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 import './BookListingAndSearch.css';
 import bookDetails from './DummyData_Books';
@@ -7,28 +7,51 @@ import bookDetails from './DummyData_Books';
 const BookListingAndSearch = () => {
     const [bookName, setBookName] = useState('');
     const [bookData, setBookData] = useState(bookDetails);
+    const navigate = useNavigate();
 
     const [searchTerm, setSearchTerm] = useState('');
+
+    Axios.defaults.withCredentials = true;
+
+    useEffect(() => {
+        Axios.get('http://localhost:5173/booklist')
+            .then(res => {
+                if (res.data.message === 'no token') {
+                    navigate('/login')
+                }
+            })
+    }, [])
+
+    useEffect(() => {
+        Axios.get('http://localhost:3000/auth/verify')
+            .then(res => {
+                if (res.data.message === 'no token') {
+                    navigate('/login')
+                }
+            })
+    }, [])
+
+    useEffect(() => {
+        fetchBooks();
+    }, [])
+
+
+
     const fetchBooks = async () => {
         try {
             const response = await Axios.get('http://localhost:3000/books/getBooks');
-            console.log(response.data)
             setBookData(response.data);
         } catch (error) {
             console.error('Error fetching book list:', error);
         }
     };
 
-    useEffect(() => {
-        fetchBooks();
-    }, [])
 
-    console.info('BookList:', bookData);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
 
 
-    const currentItem = searchTerm != '' ? bookData: bookData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage) ;
+    const currentItem = searchTerm != '' ? bookData : bookData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
     const filteredBooks = currentItem.filter(book =>
         book.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -49,24 +72,27 @@ const BookListingAndSearch = () => {
         </li>
     ));
 
-    
+
 
     return (
         <div className="my-background">
-                <h1 className="text-3xl font-bold text-center mb-4">Find Your Book Here</h1>
-                <div className="items-center">
-                    <form className='bg-white shadow-md rounded-lg  px-10 py-8 mb-8'>
-                        <h2 className='text-2xl  mb-6'>Search Book</h2>
-                        <div className='mb-6'>
-                            <label htmlFor='text' className='block text-gray-700 text-sm font-bold mb-2'>Book Name</label>
-                            <input type='text' autoComplete='off' placeholder='Book Name' className='shadow appearance-none border rounded w-full md:w-64 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' onChange={(e) => setSearchTerm(e.target.value)}></input>
-                        </div>
-                    </form>
-                </div>
-                <div className=" overflow-x-auto">
+            <h1 className="text-3xl font-bold text-center mb-4">Find Your Book Here</h1>
+            <Link to="/createBookRecord" className="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 rounded">
+                        Create Book Entry
+            </Link>
+            <div className="items-center">
+                <form className='bg-white shadow-md rounded-lg  px-10 py-8 mb-8'>
+                    <h2 className='text-2xl  mb-6'>Search Book</h2>
+                    <div className='mb-6'>
+                        <label htmlFor='text' className='block text-gray-700 text-sm font-bold mb-2'>Book Name</label>
+                        <input type='text' autoComplete='off' placeholder='Book Name' className='shadow appearance-none border rounded w-full md:w-64 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' onChange={(e) => setSearchTerm(e.target.value)}></input>
+                    </div>
+                </form>
+            </div>
+            <div className=" overflow-x-auto">
                 <table className="table-auto w-full">
                     <thead>
-                        <tr className= 'bg-gray-100'>
+                        <tr className='bg-gray-100'>
                             <th className="px-4 py-2">Book Title</th>
                             <th className="px-4 py-2">Book Author</th>
                             <th className="px-4 py-2">Genre</th>

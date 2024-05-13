@@ -10,6 +10,7 @@ import Users from './components/Users';
 import BookListingAndSearch from './components/BookListingAndSearch';
 import ResetPassword from './components/ResetPassword';
 import EditUserProfiles from './components/EditUserProfiles';
+import CreateBookRecord from './components/CreateBookRecord';
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
         <Route path='/booklist' element={<BookListingAndSearch></BookListingAndSearch>}></Route>
         <Route path='/resetPassword/:token' element={<ResetPassword></ResetPassword>}></Route>
         <Route path='/editUserProfiles' element={<EditUserProfiles></EditUserProfiles>}></Route>
+        <Route path='/createBookRecord' element={<CreateBookRecord></CreateBookRecord>}></Route>
       </Routes>
     </BrowserRouter>
   )

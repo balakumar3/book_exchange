@@ -65,7 +65,7 @@ function CreateBookRecord() {
                         <option value="readable">Readable</option>
                     </select>
 
-                    <label htmlFor="availabilityStatus" className="block mb-2"> Book Availablilty:</label>
+                    <label htmlFor="availabilityStatus" className="block mb-2"> Book Availability:</label>
                     <select id="availabilityStatus" className="w-full p-2 border border-gray-300 rounded mb-2" value={availabilityStatus} onChange={(e) => setAvailabilityStatus(e.target.value)}>
                         <option value="available">Available</option>
                         <option value="notAvailable">Not Available</option>

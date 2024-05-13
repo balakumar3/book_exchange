@@ -99,6 +99,7 @@ const BookListingAndSearch = () => {
                             <th className="px-4 py-2">Book Condition</th>
                             <th className="px-4 py-2">Availability Status</th>
                             <th className="px-4 py-2">Owner Email</th>
+                            <th>Create Exchange Request</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -110,6 +111,9 @@ const BookListingAndSearch = () => {
                                 <td className="border px-4 py-2">{data.bookCondition}</td>
                                 <td className="border px-4 py-2">{data.availabilityStatus}</td>
                                 <td className="border px-4 py-2">{data.userEmail}</td>
+                                <td><Link to="/createExchange" className=" bg-green-500 hover:bg-green-200 text-white rounded">
+                        Click here
+            </Link></td>
                             </tr>
                         ))}
                     </tbody>

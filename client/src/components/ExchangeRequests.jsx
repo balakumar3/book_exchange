@@ -93,7 +93,7 @@ const ExchangeRequests = () => {
                                 <td className="border px-4 py-2">{data.requestStatus}</td>
                                 <td className="border px-4 py-2">{data.deliveryMethod}</td>
                                 <td className="border px-4 py-2">
-                                    {data.DELIVERY_METHOD === 'bypost' || data.DELIVERY_METHOD === 'byexternaldeliverypartner'
+                                    {data.deliveryMethod === 'bypost' || data.deliveryMethod === 'byexternaldeliverypartner'
                                         ? data.address
                                         : 'N/A'}
                                 </td>

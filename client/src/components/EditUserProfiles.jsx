@@ -7,15 +7,13 @@ const EditUserProfiles = (props) => {
     const location = useLocation();
     const { state } = location;
     const { emailId } = state;
-    // Sample initial data
     const [readingPreferences, setReadingPreferences] = useState('');
     const [favoriteGenres, setFavoriteGenres] = useState([]);
     const [ownedBooks, setOwnedBooks] = useState('');
     const [wishList, setWishList] = useState('');
 
     const handleSaveProfile = () => {
-        // Save user profile data to the server
-        // You can send this data to your backend API for storage
+
         const userProfileData = {
             readingPreferences: String(readingPreferences),
             favoriteGenres: String(favoriteGenres),
@@ -24,13 +22,11 @@ const EditUserProfiles = (props) => {
         };
         axios.put(`http://localhost:3000/auth/users/${emailId}`, userProfileData)
             .then(response => {
-                console.log('User information updated:', response.data);
                 navigate('/users')
             })
             .catch(error => {
                 console.error('Error updating user information:', error.response.data);
             });
-        console.log('Saving user profile:', userProfileData);
     };
 
     return (
@@ -56,7 +52,6 @@ const EditUserProfiles = (props) => {
                 <option value="mystery">Mystery</option>
                 <option value="romance">Romance</option>
                 <option value="science-fiction">Science Fiction</option>
-                {/* Add more genre options here */}
             </select>
             <h3 className="text-lg font-semibold mb-2 mt-4">Owned Books</h3>
             <textarea

@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
 import Axios from 'axios'
 import './BookListingAndSearch.css'
 import bookDetails from './DummyData_Books';
@@ -31,7 +30,7 @@ const BookListingAndSearch = () => {
     const totalPages = Math.ceil(dummyData.length / itemsPerPage);
 
 
-    const currentItem = searchTerm != '' ? dummyData: dummyData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage) ;
+    const currentItem = searchTerm != '' ? dummyData : dummyData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
     const filteredBooks = currentItem.filter(book =>
         book.BOOK_NAME.toLowerCase().includes(searchTerm.toLowerCase())
@@ -53,20 +52,20 @@ const BookListingAndSearch = () => {
 
     return (
         <div className="my-background">
-                <h1 className="text-3xl font-bold text-center mb-4">Find Your Book Here</h1>
-                <div className="items-center">
-                    <form className='bg-white shadow-md rounded-lg  px-10 py-8 mb-8' onSubmit={handlesearch}>
-                        <h2 className='text-2xl  mb-6'>Search Book</h2>
-                        <div className='mb-6'>
-                            <label htmlFor='text' className='block text-gray-700 text-sm font-bold mb-2'>Book Name</label>
-                            <input type='text' autoComplete='off' placeholder='Book Name' className='shadow appearance-none border rounded w-full md:w-64 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' onChange={(e) => setSearchTerm(e.target.value)}></input>
-                        </div>
-                    </form>
-                </div>
-                <div className=" overflow-x-auto">
+            <h1 className="text-3xl font-bold text-center mb-4">Find Your Book Here</h1>
+            <div className="items-center">
+                <form className='bg-white shadow-md rounded-lg  px-10 py-8 mb-8' onSubmit={handlesearch}>
+                    <h2 className='text-2xl  mb-6'>Search Book</h2>
+                    <div className='mb-6'>
+                        <label htmlFor='text' className='block text-gray-700 text-sm font-bold mb-2'>Book Name</label>
+                        <input type='text' autoComplete='off' placeholder='Book Name' className='shadow appearance-none border rounded w-full md:w-64 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' onChange={(e) => setSearchTerm(e.target.value)}></input>
+                    </div>
+                </form>
+            </div>
+            <div className=" overflow-x-auto">
                 <table className="table-auto w-full">
                     <thead>
-                        <tr className= 'bg-gray-100'>
+                        <tr className='bg-gray-100'>
                             <th className="px-4 py-2">BookID</th>
                             <th className="px-4 py-2">Book Name</th>
                             <th className="px-4 py-2">Author Name</th>

@@ -6,7 +6,6 @@ const ListProfiles = ({ data, fetchUsers }) => {
     const navigate = useNavigate();
     const handleEdit = async (email) => {
         const user = await axios.get(`http://localhost:3000/auth/getUsers/${email}`);
-        console.log("print user ", user?.data);
         const emailId = user?.data?.email;
         navigate('/EditUserProfiles', { state: { emailId } });
     };

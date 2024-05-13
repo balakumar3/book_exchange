@@ -66,10 +66,6 @@ const ExchangeRequests = () => {
         <div className="container mx-auto pt-8 pb-8">
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-bold">Exchange Request List</h2>
-
-                <Link to="/createExchange" className="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 rounded">
-                    Create Exchange
-                </Link>
             </div>
             <div className="overflow-x-auto">
                 <table className="table-auto w-full">

@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 function CreateExchangeRequests() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const { state } = location;
+    const { bookEmailId, bookName } = state;
     const [senderEmail, setSenderEmail] = useState('');
-    const [receiverEmail, setReceiverEmail] = useState('');
-    const [bookTitle, setBookTitle] = useState('');
+    const [receiverEmail, setReceiverEmail] = useState(bookEmailId);
+    const [bookTitle, setBookTitle] = useState(bookName);
     const [requestStatus] = useState('pending');
     const [deliveryMethod, setDeliveryMethod] = useState('bypost');
     const [duration, setDuration] = useState('');

@@ -45,6 +45,11 @@ const BookListingAndSearch = () => {
             console.error('Error fetching book list:', error);
         }
     };
+    const handleEdit = async (email, title) => {
+        const bookEmailId = email;
+        const bookName = title;
+        navigate('/createExchange', { state: { bookEmailId, bookName } });
+    };
 
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -78,7 +83,7 @@ const BookListingAndSearch = () => {
         <div className="my-background">
             <h1 className="text-3xl font-bold text-center mb-4">Find Your Book Here</h1>
             <Link to="/createBookRecord" className="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 rounded">
-                        Create Book Entry
+                Create Book Entry
             </Link>
             <div className="items-center">
                 <form className='bg-white shadow-md rounded-lg  px-10 py-8 mb-8'>
@@ -111,9 +116,10 @@ const BookListingAndSearch = () => {
                                 <td className="border px-4 py-2">{data.bookCondition}</td>
                                 <td className="border px-4 py-2">{data.availabilityStatus}</td>
                                 <td className="border px-4 py-2">{data.userEmail}</td>
-                                <td><Link to="/createExchange" className=" bg-green-500 hover:bg-green-200 text-white rounded">
-                        Click here
-            </Link></td>
+
+                                <td><button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                    onClick={() => handleEdit(data.userEmail, data.title)}>Click here</button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>

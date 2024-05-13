@@ -95,16 +95,12 @@ router.post('/reset-password/:token', async (req, res) => {
 })
 const verifyUser = async (req, res, next) => {
     try {
-        console.log("print request ", req?.headers)
         const token = req?.cookies?.token;
-        console.log("token is ", token)
         if (!token) {
-            console.log("here")
             return res.json({ status: false, message: 'no token' })
         }
         const decoded = await jwt.verify(token, process.env.KEY);
         if (decoded) {
-            console.log("print decoded value ", decoded)
             next();
         }
     }
@@ -114,7 +110,6 @@ const verifyUser = async (req, res, next) => {
 }
 
 router.get('/verify', verifyUser, (req, res) => {
-    console.log("verify success ")
     return res.json({ status: 200, message: 'authorized' })
 });
 
@@ -135,7 +130,6 @@ router.get('/getUsers', async (req, res) => {
 router.delete('/deleteUser/:userEmail', async (req, res) => {
     try {
         const userEmail = req.params.userEmail;
-        console.log("user email is ", userEmail);
         const user = await User.findOneAndDelete({ email: userEmail });
         res.json({ message: 'User deleted successfully' });
     } catch (error) {
@@ -146,7 +140,6 @@ router.delete('/deleteUser/:userEmail', async (req, res) => {
 router.get('/getUsers/:userEmail', async (req, res) => {
     try {
         const userEmail = req.params.userEmail;
-        console.log("user email is ", userEmail);
         const user = await User.findOne({ email: userEmail });
         res.json(user);
     } catch (error) {
@@ -156,14 +149,12 @@ router.get('/getUsers/:userEmail', async (req, res) => {
 
 router.put('/users/:emailId', async (req, res) => {
     const email = req.params.emailId;
-    console.log("email is ", email)
     const {
         readingPreferences,
         favoriteGenres,
         ownedBooks,
         wishList,
     } = req.body;
-    console.log("user location ")
 
     try {
 

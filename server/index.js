@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 
 dotenv.config()
 import { UserRouter } from './routes/user.js';
+import {BookRouter } from './routes/books.js';
 import { ExchangeRequest } from './routes/ExchangeRequest.js';
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(cors(
 ))
 app.use(cookieParser());
 app.use('/auth', UserRouter);
+app.use('/books', BookRouter);
 app.use('/exchange', ExchangeRequest)
 
 mongoose.connect('mongodb://127.0.0.1:27017/authentication')

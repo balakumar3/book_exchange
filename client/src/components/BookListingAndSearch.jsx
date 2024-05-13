@@ -1,40 +1,39 @@
-import React, { useState } from 'react'
-import Axios from 'axios'
-import './BookListingAndSearch.css'
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import Axios from 'axios';
+import './BookListingAndSearch.css';
 import bookDetails from './DummyData_Books';
 
 const BookListingAndSearch = () => {
     const [bookName, setBookName] = useState('');
+    const [bookData, setBookData] = useState(bookDetails);
 
     const [searchTerm, setSearchTerm] = useState('');
+    const fetchBooks = async () => {
+        try {
+            const response = await Axios.get('http://localhost:3000/books/getBooks');
+            console.log(response.data)
+            setBookData(response.data);
+        } catch (error) {
+            console.error('Error fetching book list:', error);
+        }
+    };
 
-    const handlesearch = (e) => {
-        e.preventDefault();
+    useEffect(() => {
+        fetchBooks();
+    }, [])
 
-
-        Axios.post("book search api", { bookName })
-            .then(response => {
-                console.log(response)
-                if (response.data.status) {
-                }
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    }
-    const [dummyData, setDummyData] = useState(bookDetails);
-
-
+    console.info('BookList:', bookData);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
-    const totalPages = Math.ceil(dummyData.length / itemsPerPage);
 
 
-    const currentItem = searchTerm != '' ? dummyData : dummyData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+    const currentItem = searchTerm != '' ? bookData: bookData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage) ;
 
     const filteredBooks = currentItem.filter(book =>
-        book.BOOK_NAME.toLowerCase().includes(searchTerm.toLowerCase())
+        book.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
+    const totalPages = Math.ceil(filteredBooks.length / itemsPerPage);
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     const paginationButtons = Array.from({ length: totalPages }, (_, i) => (
@@ -50,41 +49,47 @@ const BookListingAndSearch = () => {
         </li>
     ));
 
+    
+
     return (
         <div className="my-background">
-            <h1 className="text-3xl font-bold text-center mb-4">Find Your Book Here</h1>
-            <div className="items-center">
-                <form className='bg-white shadow-md rounded-lg  px-10 py-8 mb-8' onSubmit={handlesearch}>
-                    <h2 className='text-2xl  mb-6'>Search Book</h2>
-                    <div className='mb-6'>
-                        <label htmlFor='text' className='block text-gray-700 text-sm font-bold mb-2'>Book Name</label>
-                        <input type='text' autoComplete='off' placeholder='Book Name' className='shadow appearance-none border rounded w-full md:w-64 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' onChange={(e) => setSearchTerm(e.target.value)}></input>
-                    </div>
-                </form>
-            </div>
-            <div className=" overflow-x-auto">
+                <h1 className="text-3xl font-bold text-center mb-4">Find Your Book Here</h1>
+                <div className="items-center">
+                    <form className='bg-white shadow-md rounded-lg  px-10 py-8 mb-8'>
+                        <h2 className='text-2xl  mb-6'>Search Book</h2>
+                        <div className='mb-6'>
+                            <label htmlFor='text' className='block text-gray-700 text-sm font-bold mb-2'>Book Name</label>
+                            <input type='text' autoComplete='off' placeholder='Book Name' className='shadow appearance-none border rounded w-full md:w-64 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' onChange={(e) => setSearchTerm(e.target.value)}></input>
+                        </div>
+                    </form>
+                </div>
+                <div className=" overflow-x-auto">
                 <table className="table-auto w-full">
                     <thead>
-                        <tr className='bg-gray-100'>
-                            <th className="px-4 py-2">BookID</th>
-                            <th className="px-4 py-2">Book Name</th>
-                            <th className="px-4 py-2">Author Name</th>
-                            <th className="px-4 py-2">Genere</th>
+                        <tr className= 'bg-gray-100'>
+                            <th className="px-4 py-2">Book Title</th>
+                            <th className="px-4 py-2">Book Author</th>
+                            <th className="px-4 py-2">Genre</th>
+                            <th className="px-4 py-2">Book Condition</th>
+                            <th className="px-4 py-2">Availability Status</th>
+                            <th className="px-4 py-2">Owner Email</th>
                         </tr>
                     </thead>
                     <tbody>
                         {filteredBooks.map((data, index) => (
                             <tr key={index} className={index % 1 === 0 ? 'bg-white' : ''}>
-                                <td className="border px-4 py-2">{data.BOOK_ID}</td>
-                                <td className="border px-4 py-2">{data.BOOK_NAME}</td>
-                                <td className="border px-4 py-2">{data.AUTHOR}</td>
-                                <td className="border px-4 py-2">{data.GENERE}</td>
+                                <td className="border px-4 py-2">{data.title}</td>
+                                <td className="border px-4 py-2">{data.author}</td>
+                                <td className="border px-4 py-2">{data.genre}</td>
+                                <td className="border px-4 py-2">{data.bookCondition}</td>
+                                <td className="border px-4 py-2">{data.availabilityStatus}</td>
+                                <td className="border px-4 py-2">{data.userEmail}</td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
 
-                {dummyData.length > itemsPerPage && (
+                {bookData.length > itemsPerPage && (
                     <div className="mt-4 flex justify-center">
                         <nav className="block">
                             <ul className="flex pl-0 rounded list-none flex-wrap">{paginationButtons}</ul>
